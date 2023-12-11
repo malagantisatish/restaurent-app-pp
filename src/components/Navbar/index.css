@@ -1,0 +1,44 @@
+.navbar {
+  display: flex;
+  height: 80px;
+  width: 100vw;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 1px 1px 1px 1px;
+}
+
+.cart {
+  display: flex;
+  align-items: center;
+}
+
+.my-order {
+  padding: 10px;
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .my-order {
+    display: none;
+  }
+}
+
+.cart-count {
+  background-color: red;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  border-width: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  align-self: flex-start;
+  text-decoration: normal;
+}
+
+.link {
+  text-decoration: normal;
+}

@@ -1,0 +1,81 @@
+.dish-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-width: 1px;
+  border-style: solid;
+  margin: 5px;
+  padding: 10px;
+  border-color: grey;
+  border-radius: 5px;
+  width: 95vw;
+}
+
+.dish-image {
+  height: 100px;
+  width: 120px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.dish-name {
+  font-family: 'Roboto';
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.dish-price {
+  font-family: 'Roboto';
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.dish-description {
+  font-family: 'Roboto';
+  font-size: 18px;
+  color: grey;
+}
+
+.dish-calories {
+  font-family: 'Roboto';
+  font-size: 20px;
+  font-weight: bold;
+  color: orange;
+}
+
+.dish-details {
+  width: 50%;
+}
+
+.count-container {
+  background-color: green;
+  border-radius: 10px;
+  height: 50px;
+  width: 120px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.btn {
+  background-color: transparent;
+  border-width: 0px;
+  color: white;
+  font-size: 15px;
+}
+
+.not-available {
+  color: red;
+  font-family: 'Roboto';
+  font-size: 18px;
+}
+
+.custom-description {
+  color: blue;
+  font-family: 'Roboto';
+  font-size: 18px;
+}

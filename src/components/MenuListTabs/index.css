@@ -1,0 +1,16 @@
+.inactive-tab {
+  font-size: 22px;
+  font-family: 'Roboto';
+  background-color: transparent;
+  border-width: 0px;
+}
+
+.active-tab {
+  font-size: 22px;
+  font-family: 'Roboto';
+  color: red;
+  font-weight: bold;
+  text-decoration: underline;
+  background-color: transparent;
+  border-width: 0px;
+}
