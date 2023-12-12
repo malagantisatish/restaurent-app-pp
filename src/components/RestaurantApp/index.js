@@ -6,7 +6,12 @@ import MenuListTabs from '../MenuListTabs'
 import RestaurantContext from '../../context/RestaurantContext'
 
 class RestaurantApp extends Component {
-  state = {tableMenuList: [], categoryDishes: [], activeTab: ''}
+  state = {
+    restaurantName: '',
+    tableMenuList: [],
+    categoryDishes: [],
+    activeTab: '',
+  }
 
   componentDidMount() {
     this.getTheData()
@@ -54,6 +59,7 @@ class RestaurantApp extends Component {
         tableMenuList: tableMenu,
         categoryDishes: tableMenu[0].categoryDishes,
         activeTab: tableMenu[0].menuCategoryId,
+        restaurantName: data[0].restaurant_name,
       })
     }
   }
@@ -93,7 +99,7 @@ class RestaurantApp extends Component {
   }
 
   render() {
-    const {categoryDishes, tableMenuList} = this.state
+    const {categoryDishes, tableMenuList, restaurantName} = this.state
     // console.log(categoryDishes)
     return (
       <RestaurantContext.Consumer>
@@ -101,7 +107,7 @@ class RestaurantApp extends Component {
           const {cartList, addCartItem, removeCartItem} = value
           return (
             <>
-              <Navbar />
+              <Navbar restaurantName={restaurantName} />
               {this.renderTheMenuList()}
             </>
           )

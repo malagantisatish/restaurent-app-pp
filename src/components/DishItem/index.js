@@ -44,7 +44,7 @@ const DishItem = props => {
         }
 
         const remove = () => {
-          if (quantity >= 1) {
+          if (quantity > 1) {
             decreaseTheCount(dishId)
           } else {
             removeCartItem(dishId)

@@ -7,6 +7,7 @@ const RestaurantContext = React.createContext({
   increaseTheCount: () => {},
   decreaseTheCount: () => {},
   getTheQuantity: () => {},
+  count: 0,
 })
 
 export default RestaurantContext

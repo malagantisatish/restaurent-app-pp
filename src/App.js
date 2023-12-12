@@ -7,36 +7,49 @@ import Cart from './components/Cart'
 import './App.css'
 
 class App extends Component {
-  state = {cartList: []}
+  state = {cartList: [], count: 0}
 
   addCartItem = item => {
-    this.setState(prevState => ({
-      cartList: [...prevState.cartList, {...item}],
-    }))
+    this.setState(
+      prevState => ({
+        cartList: [...prevState.cartList, {...item}],
+      }),
+      this.cartCount,
+    )
   }
 
-  removeCartItem = id => {}
+  removeCartItem = id => {
+    const {cartList} = this.state
+    const filteredList = cartList.filter(each => each.dishId !== id)
+    this.setState({cartList: filteredList}, this.cartCount)
+  }
 
   increaseTheCount = id => {
-    this.setState(prevState => ({
-      cartList: prevState.cartList.map(each => {
-        if (each.dishId === id) {
-          return {...each, quantity: each.quantity + 1}
-        }
-        return each
+    this.setState(
+      prevState => ({
+        cartList: prevState.cartList.map(each => {
+          if (each.dishId === id) {
+            return {...each, quantity: each.quantity + 1}
+          }
+          return each
+        }),
       }),
-    }))
+      this.cartCount,
+    )
   }
 
   decreaseTheCount = id => {
-    this.setState(prevState => ({
-      cartList: prevState.cartList.map(each => {
-        if (each.dishId === id) {
-          return {...each, quantity: each.quantity - 1}
-        }
-        return each
+    this.setState(
+      prevState => ({
+        cartList: prevState.cartList.map(each => {
+          if (each.dishId === id) {
+            return {...each, quantity: each.quantity - 1}
+          }
+          return each
+        }),
       }),
-    }))
+      this.cartCount,
+    )
   }
 
   getTheQuantity = id => {
@@ -45,13 +58,19 @@ class App extends Component {
     return foodItem === undefined ? 0 : foodItem.quantity
   }
 
-  render() {
+  cartCount = () => {
     const {cartList} = this.state
+    this.setState({count: cartList.length})
+  }
+
+  render() {
+    const {cartList, count} = this.state
     console.log(cartList)
     return (
       <RestaurantContext.Provider
         value={{
           cartList,
+          count,
           addCartItem: this.addCartItem,
           removeCartItem: this.removeCartItem,
           getTheQuantity: this.getTheQuantity,
