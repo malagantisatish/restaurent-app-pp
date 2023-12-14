@@ -32,6 +32,7 @@ const DishItem = props => {
         } = value
 
         const quantity = getTheQuantity(dishId)
+
         // console.log(quantity)
 
         const add = () => {
@@ -56,7 +57,7 @@ const DishItem = props => {
             <button type="button" className="btn" onClick={remove}>
               -
             </button>
-            <p>{quantity}</p>
+            <p>{quantity > 0 ? quantity : 0}</p>
             <button type="button" className="btn" onClick={add}>
               +
             </button>

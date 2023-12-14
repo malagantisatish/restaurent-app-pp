@@ -1,9 +1,17 @@
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import Navbar from '../Navbar'
 import DishItem from '../DishItem'
 import './index.css'
 import MenuListTabs from '../MenuListTabs'
 import RestaurantContext from '../../context/RestaurantContext'
+
+const apiStatus = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  inProcess: 'PROCESS',
+  failure: 'FAIL',
+}
 
 class RestaurantApp extends Component {
   state = {
@@ -11,6 +19,7 @@ class RestaurantApp extends Component {
     tableMenuList: [],
     categoryDishes: [],
     activeTab: '',
+    status: apiStatus.initial,
   }
 
   componentDidMount() {
@@ -43,11 +52,13 @@ class RestaurantApp extends Component {
 
   getTheData = async () => {
     const url = 'https://run.mocky.io/v3/77a7e71b-804a-4fbd-822c-3e365d3482cc'
+
+    this.setState({status: apiStatus.inProcess})
     const response = await fetch(url)
     const data = await response.json()
 
-    // console.log(data)
-    if (response.ok === true) {
+    console.log(response.ok)
+    if (response.ok) {
       const tableMenu = data[0].table_menu_list.map(each =>
         this.getTheFormattedData(each),
       )
@@ -60,6 +71,7 @@ class RestaurantApp extends Component {
         categoryDishes: tableMenu[0].categoryDishes,
         activeTab: tableMenu[0].menuCategoryId,
         restaurantName: data[0].restaurant_name,
+        status: apiStatus.success,
       })
     }
   }
@@ -75,8 +87,14 @@ class RestaurantApp extends Component {
     })
   }
 
-  renderTheMenuList = () => {
-    const {tableMenuList, categoryDishes, activeTab} = this.state
+  renderTheSuccessView = () => {
+    const {
+      tableMenuList,
+      categoryDishes,
+      activeTab,
+      restaurantName,
+    } = this.state
+    console.log(activeTab)
     return (
       <div>
         <ul className="menu-tab-container">
@@ -98,17 +116,36 @@ class RestaurantApp extends Component {
     )
   }
 
+  renderTheLoader = () => (
+    <div className="loader-container">
+      <Loader type="BallTriangle" color="#F7931E" height={50} width={50} />
+    </div>
+  )
+
   render() {
-    const {categoryDishes, tableMenuList, restaurantName} = this.state
-    // console.log(categoryDishes)
+    const {categoryDishes, tableMenuList, restaurantName, status} = this.state
+
     return (
       <RestaurantContext.Consumer>
         {value => {
           const {cartList, addCartItem, removeCartItem} = value
+
+          const renderTheRestaurantView = () => {
+            switch (status) {
+              case apiStatus.inProcess:
+                return this.renderTheLoader()
+              case apiStatus.success:
+                return this.renderTheSuccessView()
+
+              default:
+                return null
+            }
+          }
+
           return (
             <>
               <Navbar restaurantName={restaurantName} />
-              {this.renderTheMenuList()}
+              {renderTheRestaurantView()}
             </>
           )
         }}

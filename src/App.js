@@ -21,7 +21,12 @@ class App extends Component {
   removeCartItem = id => {
     const {cartList} = this.state
     const filteredList = cartList.filter(each => each.dishId !== id)
-    this.setState({cartList: filteredList}, this.cartCount)
+    this.setState(
+      prevState => ({
+        cartList: filteredList,
+      }),
+      this.cartCount,
+    )
   }
 
   increaseTheCount = id => {
@@ -29,7 +34,10 @@ class App extends Component {
       prevState => ({
         cartList: prevState.cartList.map(each => {
           if (each.dishId === id) {
-            return {...each, quantity: each.quantity + 1}
+            return {
+              ...each,
+              quantity: each.quantity + 1,
+            }
           }
           return each
         }),
@@ -43,7 +51,10 @@ class App extends Component {
       prevState => ({
         cartList: prevState.cartList.map(each => {
           if (each.dishId === id) {
-            return {...each, quantity: each.quantity - 1}
+            return {
+              ...each,
+              quantity: each.quantity - 1,
+            }
           }
           return each
         }),
@@ -60,12 +71,17 @@ class App extends Component {
 
   cartCount = () => {
     const {cartList} = this.state
-    this.setState({count: cartList.length})
+    const totalQuantity = cartList.reduce(
+      (total, product) => total + product.quantity,
+      0,
+    )
+    console.log(totalQuantity)
+    this.setState({count: totalQuantity})
   }
 
   render() {
     const {cartList, count} = this.state
-    console.log(cartList)
+    console.log(count)
     return (
       <RestaurantContext.Provider
         value={{
@@ -76,6 +92,7 @@ class App extends Component {
           getTheQuantity: this.getTheQuantity,
           increaseTheCount: this.increaseTheCount,
           decreaseTheCount: this.decreaseTheCount,
+          cartCount: this.cartCount,
         }}
       >
         <BrowserRouter>

@@ -8,3 +8,10 @@
   align-items: center;
   padding: 10px;
 }
+
+.loader-container {
+  height: 100vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
