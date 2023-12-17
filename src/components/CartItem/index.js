@@ -1,7 +1,7 @@
 import RestaurantContext from '../../context/RestaurantContext'
 import './index.css'
 
-const DishItem = props => {
+const CartItem = props => {
   const {dishDetails} = props
   const {
     dishAvailability,
@@ -15,9 +15,6 @@ const DishItem = props => {
     dishType,
     addOnCat,
   } = dishDetails
-
-  const addOnTrue = addOnCat.length > 1 ? 'true' : 'false'
-
   return (
     <RestaurantContext.Consumer>
       {value => {
@@ -52,6 +49,10 @@ const DishItem = props => {
           }
         }
 
+        const removeItemFromCart = () => {
+          removeCartItem(dishId)
+        }
+
         const renderTheCount = () => (
           <div className="add-cart-count-container">
             <div className="count-container">
@@ -63,8 +64,12 @@ const DishItem = props => {
                 +
               </button>
             </div>
-            <button type="button" onClick={add} className="add-btn">
-              ADD TO CART
+            <button
+              type="button"
+              onClick={removeItemFromCart}
+              className="add-btn"
+            >
+              Remove
             </button>
           </div>
         )
@@ -73,16 +78,11 @@ const DishItem = props => {
           <li className="dish-item-container">
             <div className="dish-details">
               <h1 className="dish-name">{dishName}</h1>
-              <p className="dish-price">{`${dishCurrency} ${dishPrice}`}</p>
+              <p className="dish-price">{`${dishCurrency} ${
+                dishPrice * quantity
+              }`}</p>
               <p className="dish-description">{dishDescription}</p>
-              {dishAvailability ? (
-                renderTheCount()
-              ) : (
-                <p className="not-available">Not Available</p>
-              )}
-              {addOnTrue === 'true' && (
-                <p className="custom-description">Customizations available</p>
-              )}
+              {renderTheCount()}
             </div>
             <p className="dish-calories">{`${dishCalories} calories`}</p>
             <img src={dishImage} alt={dishName} className="dish-image" />
@@ -93,4 +93,4 @@ const DishItem = props => {
   )
 }
 
-export default DishItem
+export default CartItem

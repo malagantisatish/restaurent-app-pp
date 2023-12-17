@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import Navbar from '../Navbar'
 import RestaurantContext from '../../context/RestaurantContext'
-import DishItem from '../DishItem'
+import CartItem from '../CartItem'
 import './index.css'
 
 const apiStatus = {
@@ -38,18 +38,48 @@ class Cart extends Component {
     return (
       <RestaurantContext.Consumer>
         {value => {
-          const {cartList} = value
+          const {cartList, removeAllCartItems} = value
+
+          const removeItems = () => {
+            removeAllCartItems()
+          }
+
           const renderTheCartList = () => (
             <ul>
               {cartList.map(each => (
-                <DishItem key={each.dishId} dishDetails={each} />
+                <CartItem key={each.dishId} dishDetails={each} />
               ))}
             </ul>
           )
+
+          const renderTheCartView = () => (
+            <>
+              {cartList.length > 0 ? (
+                renderTheCartList()
+              ) : (
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-empty-cart-img.png"
+                  className="no-cart-items"
+                />
+              )}
+            </>
+          )
+
           return (
             <>
               <Navbar restaurantName={restaurantName} />
-              {renderTheCartList()}
+              <div className="cart-container">
+                {cartList.length > 0 && (
+                  <button
+                    type="button"
+                    className="remove-btn"
+                    onClick={removeItems}
+                  >
+                    Remove All
+                  </button>
+                )}
+                {renderTheCartView()}
+              </div>
             </>
           )
         }}

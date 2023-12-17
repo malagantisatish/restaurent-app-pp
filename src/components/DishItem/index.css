@@ -79,3 +79,19 @@
   font-family: 'Roboto';
   font-size: 18px;
 }
+
+.add-btn {
+  background-color: orange;
+  border-width: 0px;
+  border-radius: 4px;
+  height: 40px;
+  width: 100px;
+  color: white;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.add-cart-count-container {
+  display: flex;
+  align-items: center;
+}

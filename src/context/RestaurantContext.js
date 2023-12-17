@@ -4,12 +4,11 @@ const RestaurantContext = React.createContext({
   cartList: [],
   addCartItem: () => {},
   removeCartItem: () => {},
-  increaseTheCount: () => {},
-  decreaseTheCount: () => {},
+  incrementCartItemQuantity: () => {},
+  decrementCartItemQuantity: () => {},
   getTheQuantity: () => {},
-  count: 0,
-  restaurantName: '',
   getTheName: () => {},
+  removeAllCartItems: () => {},
 })
 
 export default RestaurantContext

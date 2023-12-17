@@ -1,10 +1,12 @@
 import {Component} from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
-import Restaurant from './components/RestaurantApp'
+import RestaurantApp from './components/RestaurantApp'
 import RestaurantContext from './context/RestaurantContext'
 import Cart from './components/Cart'
 import './App.css'
+import LoginPage from './components/LoginPage'
+import ProtectedRoute from './components/ProtectedRoute'
 
 class App extends Component {
   state = {cartList: [], count: 0}
@@ -21,15 +23,10 @@ class App extends Component {
   removeCartItem = id => {
     const {cartList} = this.state
     const filteredList = cartList.filter(each => each.dishId !== id)
-    this.setState(
-      prevState => ({
-        cartList: filteredList,
-      }),
-      this.cartCount,
-    )
+    this.setState({cartList: filteredList})
   }
 
-  increaseTheCount = id => {
+  incrementCartItemQuantity = id => {
     this.setState(
       prevState => ({
         cartList: prevState.cartList.map(each => {
@@ -46,7 +43,7 @@ class App extends Component {
     )
   }
 
-  decreaseTheCount = id => {
+  decrementCartItemQuantity = id => {
     this.setState(
       prevState => ({
         cartList: prevState.cartList.map(each => {
@@ -61,6 +58,10 @@ class App extends Component {
       }),
       this.cartCount,
     )
+  }
+
+  removeAllCartItems = () => {
+    this.setState({cartList: []})
   }
 
   getTheQuantity = id => {
@@ -90,15 +91,16 @@ class App extends Component {
           addCartItem: this.addCartItem,
           removeCartItem: this.removeCartItem,
           getTheQuantity: this.getTheQuantity,
-          increaseTheCount: this.increaseTheCount,
-          decreaseTheCount: this.decreaseTheCount,
-          cartCount: this.cartCount,
+          incrementCartItemQuantity: this.incrementCartItemQuantity,
+          decrementCartItemQuantity: this.decrementCartItemQuantity,
+          removeAllCartItems: this.removeAllCartItems,
         }}
       >
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Restaurant} />
-            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/login" component={LoginPage} />
+            <ProtectedRoute exact path="/" component={RestaurantApp} />
+            <ProtectedRoute exact path="/cart" component={Cart} />
           </Switch>
         </BrowserRouter>
       </RestaurantContext.Provider>

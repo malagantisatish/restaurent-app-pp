@@ -1,5 +1,6 @@
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import {FiShoppingCart} from 'react-icons/fi'
 import RestaurantContext from '../../context/RestaurantContext'
 import './index.css'
@@ -9,6 +10,12 @@ class Navbar extends Component {
 
   componentDidMount() {
     this.getTheData()
+  }
+
+  logoutBtn = () => {
+    const {history} = this.props
+    Cookies.remove('jwt_token')
+    history.replace('/login')
   }
 
   getTheData = async () => {
@@ -36,19 +43,33 @@ class Navbar extends Component {
       <RestaurantContext.Consumer>
         {value => {
           const {cartList, cartCount, count} = value
+          const cartLen = cartList.length
 
           return (
             <nav className="navbar">
-              <Link to="/">
+              <Link to="/" className="link-items">
                 <h1>{restaurantName}</h1>
               </Link>
-              <Link to="/cart">
+              <div className="logout-cart">
                 <div className="cart">
                   <h1 className="my-order link">My Orders</h1>
-                  <FiShoppingCart size={40} />
-                  <p className="cart-count link">{count}</p>
+
+                  <Link to="/cart" className="link-items">
+                    <button type="button" className="cart-btn">
+                      <FiShoppingCart size={40} />
+                    </button>
+                  </Link>
+                  <p className="cart-count link">{cartLen}</p>
                 </div>
-              </Link>
+
+                <button
+                  type="button"
+                  className="logout-btn"
+                  onClick={this.logoutBtn}
+                >
+                  Logout
+                </button>
+              </div>
             </nav>
           )
         }}
@@ -57,4 +78,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+export default withRouter(Navbar)

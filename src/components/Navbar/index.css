@@ -42,3 +42,28 @@
 .link {
   text-decoration: normal;
 }
+
+.logout-btn {
+  height: 50px;
+  width: 120px;
+  border-width: 0px;
+  background-color: red;
+  border-radius: 5px;
+  color: white;
+}
+
+.logout-cart {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.cart-btn {
+  background-color: transparent;
+  border-width: 0px;
+}
+
+.link-items {
+  text-decoration: none;
+}

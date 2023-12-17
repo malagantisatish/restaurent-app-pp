@@ -1,4 +1,6 @@
 import {Component} from 'react'
+import {withRouter, Redirect} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import Navbar from '../Navbar'
 import DishItem from '../DishItem'
@@ -124,7 +126,10 @@ class RestaurantApp extends Component {
 
   render() {
     const {categoryDishes, tableMenuList, restaurantName, status} = this.state
-
+    const token = Cookies.get('jwt_token')
+    if (token === undefined) {
+      return <Redirect to="/login" />
+    }
     return (
       <RestaurantContext.Consumer>
         {value => {
