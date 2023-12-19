@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import './index.css'
 
-class LoginPage extends Component {
+class Login extends Component {
   state = {
     username: '',
     password: '',
@@ -95,4 +95,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage
+export default Login

@@ -1,4 +1,4 @@
-import RestaurantContext from '../../context/RestaurantContext'
+import CartContext from '../../context/CartContext'
 import './index.css'
 
 const CartItem = props => {
@@ -16,7 +16,7 @@ const CartItem = props => {
     addOnCat,
   } = dishDetails
   return (
-    <RestaurantContext.Consumer>
+    <CartContext.Consumer>
       {value => {
         const {
           addCartItem,
@@ -89,7 +89,7 @@ const CartItem = props => {
           </li>
         )
       }}
-    </RestaurantContext.Consumer>
+    </CartContext.Consumer>
   )
 }
 

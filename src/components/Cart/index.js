@@ -1,6 +1,6 @@
 import {Component} from 'react'
 import Navbar from '../Navbar'
-import RestaurantContext from '../../context/RestaurantContext'
+import CartContext from '../../context/CartContext'
 import CartItem from '../CartItem'
 import './index.css'
 
@@ -36,9 +36,14 @@ class Cart extends Component {
   render() {
     const {restaurantName} = this.state
     return (
-      <RestaurantContext.Consumer>
+      <CartContext.Consumer>
         {value => {
-          const {cartList, removeAllCartItems} = value
+          const {
+            cartList,
+            removeAllCartItems,
+            decrementCartItemQuantity,
+            incrementCartItemQuantity,
+          } = value
 
           const removeItems = () => {
             removeAllCartItems()
@@ -83,7 +88,7 @@ class Cart extends Component {
             </>
           )
         }}
-      </RestaurantContext.Consumer>
+      </CartContext.Consumer>
     )
   }
 }

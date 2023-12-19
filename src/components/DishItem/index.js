@@ -1,4 +1,5 @@
-import RestaurantContext from '../../context/RestaurantContext'
+import {useState} from 'react'
+import CartContext from '../../context/CartContext'
 import './index.css'
 
 const DishItem = props => {
@@ -16,10 +17,12 @@ const DishItem = props => {
     addOnCat,
   } = dishDetails
 
+  const [quantityOfItem, setQuantity] = useState(0)
+
   const addOnTrue = addOnCat.length > 1 ? 'true' : 'false'
 
   return (
-    <RestaurantContext.Consumer>
+    <CartContext.Consumer>
       {value => {
         const {
           addCartItem,
@@ -34,14 +37,19 @@ const DishItem = props => {
         const quantity = getTheQuantity(dishId)
 
         // console.log(quantity)
+        const increaseTheCount = () => {
+          setQuantity(prevState => prevState + 1)
+        }
+
+        const decreaseTheCount = () => {
+          if (quantityOfItem > 0) {
+            setQuantity(prevState => prevState - 1)
+          }
+        }
 
         const add = () => {
-          if (quantity >= 1) {
-            incrementCartItemQuantity(dishId)
-          } else {
-            const foodItem = {...dishDetails, quantity: 1}
-            addCartItem(foodItem)
-          }
+          const foodItem = {...dishDetails, quantity: quantityOfItem}
+          addCartItem(foodItem)
         }
 
         const remove = () => {
@@ -55,17 +63,19 @@ const DishItem = props => {
         const renderTheCount = () => (
           <div className="add-cart-count-container">
             <div className="count-container">
-              <button type="button" className="btn" onClick={remove}>
+              <button type="button" className="btn" onClick={decreaseTheCount}>
                 -
               </button>
-              <p>{quantity}</p>
-              <button type="button" className="btn" onClick={add}>
+              <p>{quantityOfItem}</p>
+              <button type="button" className="btn" onClick={increaseTheCount}>
                 +
               </button>
             </div>
-            <button type="button" onClick={add} className="add-btn">
-              ADD TO CART
-            </button>
+            {quantityOfItem > 0 && (
+              <button type="button" onClick={add} className="add-btn">
+                ADD TO CART
+              </button>
+            )}
           </div>
         )
 
@@ -89,7 +99,7 @@ const DishItem = props => {
           </li>
         )
       }}
-    </RestaurantContext.Consumer>
+    </CartContext.Consumer>
   )
 }
 

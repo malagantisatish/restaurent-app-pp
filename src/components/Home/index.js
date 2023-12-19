@@ -6,7 +6,7 @@ import Navbar from '../Navbar'
 import DishItem from '../DishItem'
 import './index.css'
 import MenuListTabs from '../MenuListTabs'
-import RestaurantContext from '../../context/RestaurantContext'
+import CartContext from '../../context/CartContext'
 
 const apiStatus = {
   initial: 'INITIAL',
@@ -15,7 +15,7 @@ const apiStatus = {
   failure: 'FAIL',
 }
 
-class RestaurantApp extends Component {
+class Home extends Component {
   state = {
     restaurantName: '',
     tableMenuList: [],
@@ -59,7 +59,7 @@ class RestaurantApp extends Component {
     const response = await fetch(url)
     const data = await response.json()
 
-    console.log(response.ok)
+    console.log(data)
     if (response.ok) {
       const tableMenu = data[0].table_menu_list.map(each =>
         this.getTheFormattedData(each),
@@ -131,7 +131,7 @@ class RestaurantApp extends Component {
       return <Redirect to="/login" />
     }
     return (
-      <RestaurantContext.Consumer>
+      <CartContext.Consumer>
         {value => {
           const {cartList, addCartItem, removeCartItem} = value
 
@@ -154,9 +154,9 @@ class RestaurantApp extends Component {
             </>
           )
         }}
-      </RestaurantContext.Consumer>
+      </CartContext.Consumer>
     )
   }
 }
 
-export default RestaurantApp
+export default Home

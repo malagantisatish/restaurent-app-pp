@@ -1,23 +1,32 @@
 import {Component} from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
-import RestaurantApp from './components/RestaurantApp'
-import RestaurantContext from './context/RestaurantContext'
+import Home from './components/Home'
+import CartContext from './context/CartContext'
 import Cart from './components/Cart'
 import './App.css'
-import LoginPage from './components/LoginPage'
+import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 
 class App extends Component {
   state = {cartList: [], count: 0}
 
   addCartItem = item => {
-    this.setState(
-      prevState => ({
-        cartList: [...prevState.cartList, {...item}],
-      }),
-      this.cartCount,
-    )
+    const {cartList} = this.state
+    const productObject = cartList.find(each => each.id === item.id)
+    console.log(productObject)
+    if (productObject) {
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(each => {
+          if (each.id === item.id) {
+            return {...each, quantity: each.quantity + item.quantity}
+          }
+          return each
+        }),
+      }))
+    } else {
+      this.setState(prevState => ({cartList: [...prevState.cartList, item]}))
+    }
   }
 
   removeCartItem = id => {
@@ -84,7 +93,7 @@ class App extends Component {
     const {cartList, count} = this.state
     console.log(count)
     return (
-      <RestaurantContext.Provider
+      <CartContext.Provider
         value={{
           cartList,
           count,
@@ -98,12 +107,12 @@ class App extends Component {
       >
         <BrowserRouter>
           <Switch>
-            <Route exact path="/login" component={LoginPage} />
-            <ProtectedRoute exact path="/" component={RestaurantApp} />
+            <Route exact path="/login" component={Login} />
+            <ProtectedRoute exact path="/" component={Home} />
             <ProtectedRoute exact path="/cart" component={Cart} />
           </Switch>
         </BrowserRouter>
-      </RestaurantContext.Provider>
+      </CartContext.Provider>
     )
   }
 }

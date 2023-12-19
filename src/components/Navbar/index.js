@@ -2,7 +2,7 @@ import {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {FiShoppingCart} from 'react-icons/fi'
-import RestaurantContext from '../../context/RestaurantContext'
+import CartContext from '../../context/CartContext'
 import './index.css'
 
 class Navbar extends Component {
@@ -40,10 +40,9 @@ class Navbar extends Component {
     const {restaurantName} = this.props
     // console.log(restaurantName)
     return (
-      <RestaurantContext.Consumer>
+      <CartContext.Consumer>
         {value => {
           const {cartList, cartCount, count} = value
-          const cartLen = cartList.length
 
           return (
             <nav className="navbar">
@@ -59,7 +58,7 @@ class Navbar extends Component {
                       <FiShoppingCart size={40} />
                     </button>
                   </Link>
-                  <p className="cart-count link">{cartLen}</p>
+                  <p className="cart-count link">{cartList.length}</p>
                 </div>
 
                 <button
@@ -73,7 +72,7 @@ class Navbar extends Component {
             </nav>
           )
         }}
-      </RestaurantContext.Consumer>
+      </CartContext.Consumer>
     )
   }
 }
