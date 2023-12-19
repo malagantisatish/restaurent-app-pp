@@ -14,6 +14,7 @@ const CartItem = props => {
     dishPrice,
     dishType,
     addOnCat,
+    quantity,
   } = dishDetails
   return (
     <CartContext.Consumer>
@@ -28,25 +29,16 @@ const CartItem = props => {
           cartCount,
         } = value
 
-        const quantity = getTheQuantity(dishId)
+        // const quantity = getTheQuantity(dishId)
 
         // console.log(quantity)
 
         const add = () => {
-          if (quantity >= 1) {
-            incrementCartItemQuantity(dishId)
-          } else {
-            const foodItem = {...dishDetails, quantity: 1}
-            addCartItem(foodItem)
-          }
+          incrementCartItemQuantity(dishId)
         }
 
         const remove = () => {
-          if (quantity > 1) {
-            decrementCartItemQuantity(dishId)
-          } else {
-            removeCartItem(dishId)
-          }
+          decrementCartItemQuantity(dishId)
         }
 
         const removeItemFromCart = () => {

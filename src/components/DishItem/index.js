@@ -52,14 +52,6 @@ const DishItem = props => {
           addCartItem(foodItem)
         }
 
-        const remove = () => {
-          if (quantity > 1) {
-            decrementCartItemQuantity(dishId)
-          } else {
-            removeCartItem(dishId)
-          }
-        }
-
         const renderTheCount = () => (
           <div className="add-cart-count-container">
             <div className="count-container">

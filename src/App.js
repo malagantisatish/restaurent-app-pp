@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 
 import Home from './components/Home'
 import CartContext from './context/CartContext'
@@ -7,6 +7,7 @@ import Cart from './components/Cart'
 import './App.css'
 import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import NotFound from './components/NotFound'
 
 class App extends Component {
   state = {cartList: [], count: 0}
@@ -53,20 +54,23 @@ class App extends Component {
   }
 
   decrementCartItemQuantity = id => {
-    this.setState(
-      prevState => ({
+    const {cartList} = this.state
+    const productObject = cartList.find(
+      eachProduct => eachProduct.dishId === id,
+    )
+    if (productObject.quantity > 1) {
+      this.setState(prevState => ({
         cartList: prevState.cartList.map(each => {
-          if (each.dishId === id) {
-            return {
-              ...each,
-              quantity: each.quantity - 1,
-            }
+          if (id === each.dishId) {
+            const updatedQuantity = each.quantity - 1
+            return {...each, quantity: updatedQuantity}
           }
           return each
         }),
-      }),
-      this.cartCount,
-    )
+      }))
+    } else {
+      this.removeCartItem(id)
+    }
   }
 
   removeAllCartItems = () => {
@@ -110,6 +114,8 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <ProtectedRoute exact path="/" component={Home} />
             <ProtectedRoute exact path="/cart" component={Cart} />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect to="/not-found" />
           </Switch>
         </BrowserRouter>
       </CartContext.Provider>
